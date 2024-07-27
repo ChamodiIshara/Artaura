@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Merriweather:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <title>Art Gallery Detail View</title>
+    
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/artaura.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/discription.css">
+
+  </head>
+
+  <body>
+    <div class="search-container">
+        <input type="text" placeholder="Search.." name="search">
+<a href="home.blade.php"> <button type="submit"><i class="fa fa-search"></i></button></a>
+</div>
+
+<div class="art-container" onclick="toggleDescription()">
+    <img src="assets/images/sunflower.jpg" alt="Art Piece" class="art-image">
+    <div class="dis">
+    <!-- Placeholder for Art Image -->
+    <div class="description" id="artDescription">
+        <p><strong>ID:</strong> #001</p>
+        <p><strong>Title:</strong> The Dawn (Landscape)</p>
+        <p><strong>Size:</strong> 24x36 inches</p>
+        <p><strong>Medium:</strong> Watercolor on Paper</p>
+        <p><strong>Artist:</strong> Jane Doe</p>
+        <p><strong>Date Created:</strong> 2024</p>
+        <p><strong>Shipping Date:</strong> Within 2 weeks</p>
+        <p><strong>Painting Medium:</strong> Watercolor</p>
+        <p><strong>Views:</strong> 120 <button onclick="updateViews()">Update Views</button></p>
+        <p><strong>Quantity:</strong> <span id="quantity">3</span></p>
+        <p id="stockMessage"></p>
+    </div>
+    </div>
+</div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="script.js"></script>
+    
+    
+    <script language = "text/Javascript"> 
+
+// script.js
+function toggleDescription(event) {
+    event.stopPropagation(); // Prevents the click from triggering multiple times
+    var description = document.getElementById("artDescription");
+    description.classList.toggle("show");
+}
+
+function updateViews() {
+    event.stopPropagation(); // Prevents the click from bubbling up to the art-container
+    // Assuming views are stored in a variable or fetched from a server
+    var views = parseInt(document.querySelector("#artDescription strong:nth-child(9)").textContent) + 1;
+    document.querySelector("#artDescription strong:nth-child(9)").textContent = views.toString();
+    // Update the views in the database or server here
+}
+
+// Check stock and update message
+window.onload = function() {
+    var quantity = parseInt(document.getElementById("quantity").textContent);
+    var stockMessage = document.getElementById("stockMessage");
+    if(quantity <= 0) {
+        stockMessage.textContent = "Out of Stock";
+        stockMessage.style.color = "red";
+    } else {
+        stockMessage.textContent = "In Stock";
+        stockMessage.style.color = "green";
+    }
+};
+
+document.addEventListener('click', function (e) {
+    // Clicking outside the art description box closes it
+    if (!document.getElementById('artDescription').contains(e.target) && !e.target.matches('.art-container, .art-container *')) {
+        document.getElementById('artDescription').classList.remove('show');
+    }
+});
+</script>
+</body>
+</html>
